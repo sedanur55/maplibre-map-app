@@ -1,0 +1,161 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+
+
+.map-container {
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+    /* Tam ekran yüksekliği */
+}
+
+#root {
+    /* display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%; */
+}
+
+button {
+    margin: 10px;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    z-index: 2;
+    position: relative;
+}
+
+.button-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    z-index: 2;
+    /* Butonlar haritanın üstünde görünsün */
+    display: flex;
+    flex-direction: column;
+}
+
+.maplibregl-popup-content {
+    background: #F2F2F2;
+    border-radius: 23px;
+    box-shadow: 10px 25px 40px -15px rgba(0, 0, 0, 0.8);
+    padding: 11px 18px;
+    pointer-events: auto;
+    position: relative;
+    color: #646464;
+    font-size: 10px;
+    padding-top: 20px;
+}
+
+.maplibregl-popup-close-button {
+    background-color: transparent;
+    border: 0;
+    border-radius: 0 3px 0 0;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 0;
+    padding-right: 7px;
+    margin-top: 5px;
+}
+
+.maplibregl-popup-anchor-bottom .maplibregl-popup-tip {
+    align-self: center;
+    border-bottom: none;
+    border-top-color: #F2F2F2;
+
+}
+
+.maplibregl-popup-anchor-top .maplibregl-popup-tip {
+    align-self: center;
+    border-top: none;
+    border-bottom-color: #F2F2F2;
+
+}
+
+
+
+.navBar {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.navItem {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navbar-brand .MuiSvgIcon-root {
+    font-size: 2rem;
+    color: #fff;
+}
+
+.mainNavBar {
+    position: relative;
+    bottom: 55px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 0px;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 30px;
+    width: 177px;
+
+}
+
+.navbar-container {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    width: auto;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 5px;
+    border-radius: 12px;
+}
+
+.navBar .nav-item .navbar-brand .MuiSvgIcon-root {
+    font-size: 2rem;
+    color: #fff;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.navBar .nav-item .navbar-brand:hover .MuiSvgIcon-root {
+    transform: scale(1.2);
+    color: #eab30d;
+}
+
+.navItems {
+    margin-top: 7px;
+}
+
+#edit-button {
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    padding-left: 13px;
+    padding-right: 13px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    padding-bottom: 3px;
+    padding-top: 3px;
+
+}
