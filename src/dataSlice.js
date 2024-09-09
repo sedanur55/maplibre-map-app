@@ -62,46 +62,53 @@
 // });
 
 // export default dataSlice.reducer;
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import fetchJsonp from 'fetch-jsonp';
 import { BASE_URL } from './config/apiEndPoints';
 
 // Verileri API'den çekmek için async thunk
-export const fetchData = createAsyncThunk('data/fetchData', async (_, { getState }) => {
-    const { nextUrl } = getState().data; // nextUrl al
-    let allData = [];
-    let currentUrl = nextUrl || BASE_URL;
+export const fetchData = createAsyncThunk(
+    'users/fetchById',
+    async (thunkAPI) => {
 
-    while (currentUrl) {
-        try {
-            // Veri çekme
-            console.log('currentUrl', currentUrl);
-            const response = await axios.get(currentUrl);
-            console.log('response', response);
-            const jsonData = response.data.contents ? JSON.parse(response.data.contents) : response.data;
-            const payload = jsonData.result.records;
+        console.log('sss')
+        const { nextUrl } = getState().data; // nextUrl al
+        let allData = [];
+        let currentUrl = nextUrl || BASE_URL;
 
-            if (!jsonData.result || !Array.isArray(jsonData.result.records) || jsonData.result.records.length === 0) {
-                break;
+        while (currentUrl) {
+            try {
+                // Veri çekme
+                console.log('currentUrl', currentUrl);
+                // const response = await fetchJsonp(currentUrl);
+                const response = await fetch(currentUrl, {
+                    signal: thunkAPI.signal,
+                })
+                const jsonData = await response.json(); // JSONP'den JSON'a çevir
+                console.log('response', response);
+                console.log('jsonData', jsonData);
+                const payload = jsonData.result.records;
+
+                if (!jsonData.result || !Array.isArray(jsonData.result.records) || jsonData.result.records.length === 0) {
+                    break;
+                }
+                if (payload) {
+                    allData = [...allData, ...payload];
+                } else {
+                    console.error('Veri yapısı beklenmedik şekilde:', payload);
+                }
+
+                // nextUrl'yi güncelle
+                currentUrl = jsonData.result._links?.next ? `https://data.ibb.gov.tr${jsonData.result._links.next}` : null;
+                console.log('currentUrl', currentUrl);
+            } catch (error) {
+                console.error('Veri çekme hatası:', error);
+                throw error; // Hata oluşursa reject edelim
             }
-            if (payload) {
-                allData = [...allData, ...payload];
-            } else {
-                console.error('Veri yapısı beklenmedik şekilde:', payload);
-            }
-
-            // nextUrl'yi güncelle
-
-            currentUrl = jsonData.result._links?.next ? `https://data.ibb.gov.tr${jsonData.result._links.next}` : null;
-        } catch (error) {
-            console.error('Veri çekme hatası:', error);
-            throw error; // Hata oluşursa reject edelim
         }
-    }
 
-    return allData; // Tüm verileri döndür
-});
+        return allData; // Tüm verileri döndür
+    });
 
 const dataSlice = createSlice({
     name: 'data',

@@ -8,10 +8,16 @@ const App = () => {
   const data = useSelector((state) => state.data.data);
   const loading = useSelector((state) => state.data.loading);
   const error = useSelector((state) => state.data.error);
+  console.log('data', data)
 
   useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch]);
+    // Veri yoksa veri çek
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      if (!loading && !error) { // Yüklenme durumu ve hata kontrolü
+        dispatch(fetchData());
+      }
+    }
+  }, [dispatch, data, loading, error]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;

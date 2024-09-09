@@ -51,7 +51,6 @@ module.exports = {
         }),
         new webpack.DefinePlugin({
             'process.env.REACT_APP_IBB_API_V3': JSON.stringify(process.env.REACT_APP_IBB_API_V3),
-            'process.env.REACT_APP_ALLCORS': JSON.stringify(process.env.REACT_APP_ALLCORS),
         }),
     ],
     devServer: {
