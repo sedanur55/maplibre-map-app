@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchData } from './dataSlice'; // dataSlice.js dosyanızın doğru yolu
-import MapComponent from './MapComponent';
+import { fetchData } from './dataSlice';
+import MapComponent from './components/MapComponent';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -10,15 +10,19 @@ const App = () => {
   const error = useSelector((state) => state.data.error);
 
   useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch]);
+    if (!data || (Array.isArray(data) && data.length === 0)) {
+      if (!loading && !error) {
+        dispatch(fetchData());
+      }
+    }
+  }, [dispatch, data]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
 
   return (
     <div className="App">
-      <MapComponent data={data} />
+      <MapComponent />
     </div>
   );
 };
