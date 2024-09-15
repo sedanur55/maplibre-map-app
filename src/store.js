@@ -1,14 +1,16 @@
 import { configureStore, mid } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import dataReducer from './dataSlice';
-import logger from 'redux-logger'; // Redux logger middleware'ini import et
+import dataSlice from './dataSlice';
+import { thunk } from 'redux-thunk';
 const persistConfig = {
   key: 'root',
   storage,
+  version: 1,
+  cache: false,
+  whitelist: ['data'],
 };
-
-const persistedReducer = persistReducer(persistConfig, dataReducer);
+const persistedReducer = persistReducer(persistConfig, dataSlice);
 
 export const store = configureStore({
   reducer: {
@@ -23,10 +25,10 @@ export const store = configureStore({
           'persist/FLUSH',
           'persist/PAUSE',
           'persist/REMOVE',
-          'persist/UPDATE'
+          'persist/UPDATE',
         ],
       },
-    }).concat(logger),
+    }).concat(thunk),
 });
 
 export const persistor = persistStore(store);
